@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>Chap2 Demo Sierpinski Gasket </title>
+    <script id="vertex-shader" type="x-shader/x-vertex">
+	attribute vec4 vPosition;
+	void main(){
+		gl_Position = vPosition;
+    }
+	</script>
+
+    <script id="fragment-shader" type="x-shader/x-fragment">
+	precision mediump float;
+	void main(){
+		gl_FragColor = vec4( 1.0, 0.0, 0.0, 1.0 );
+	}
+    </script>
+    
+   <script type="text/javascript" src="../js/common/webgl-utils.js"></script>
+   <script type="text/javascript" src="../js/common/initShaders.js"></script>
+   <script type="text/javascript" src="../js/common/gl-matrix-min.js"></script>
+   
+   <script type="text/javascript" src="../js/ch02/triangle-tessa.js"></script>
+</head>
+<body>
+    <canvas id="gl-canvas" width="400" height="400">你的浏览器不支持HTML5 canvas元素</canvas>
+    <br>
+    调节选取0-7:
+    <input type="range" id="num" max="7" min="0" value="4" onchange="changed();initTriangles()">
+    
+    <br>
+    输入旋转角度(0-360)：
+    <input type="range" id="theta" max="360" min="0" value="60" placeholder="0" onchange="thetas();initTriangles()">
+    <br>
+	<input type="button" id="button1" value="返回" onclick="javascript:history.back(-1)">
+    
+</body>
+</html>

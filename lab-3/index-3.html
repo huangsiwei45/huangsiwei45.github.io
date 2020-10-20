@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<head>
+ 
+    <title>旋转的五角星</title>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>Chap3 Demo -- Rotating Square Slider</title>
+	<script id="rot-v-shader" type="x-shader/x-vertex">
+	attribute vec4 vPosition;
+	uniform float theta;
+	
+	void main()
+	{
+		float u = cos( theta );
+		float v = sin( theta );
+	
+		gl_Position.x = vPosition.x * u - vPosition.y * v;
+		gl_Position.y = vPosition.x * v + vPosition.y * u;
+		gl_Position.z = 0.0;
+		gl_Position.w = 1.0;
+	}
+	</script>
+	
+	<script id="rot-f-shader" type="x-shader/x-fragment">
+	precision mediump float;
+	
+	void main()
+	{
+		gl_FragColor = vec4( 1.0, 0.0, 0.0, 1.0 );
+	}
+	</script>
+	
+	<script type="text/javascript" src="js-3/webgl-utils.js"></script>
+	<script type="text/javascript" src="js-3/initShaders.js"></script>
+	<script type="text/javascript" src="js-3/gl-matrix-min.js"></script>
+	
+	<script type="text/javascript" src="js-3/rotsquareslider.js"></script>
+	
+    <style type="text/css">
+    	#myCanvas{
+    		background-color:#007ACC;
+    	}
+    </style>
+    <script type="text/javascript">
+        var context;
+        var i;
+		var direction=1;
+		
+        function draw(id)
+        {
+            var canvas = document.getElementById(id);
+            if (canvas == null)
+                return false;
+            context = canvas.getContext('2d');
+            i = 3;
+            setInterval(move, 100);
+        }
+		function change(){
+				direction *= -1;
+		}
+        function move()
+        {
+            context.clearRect(0, 0, 400, 300);
+            context.save();
+            context.fillStyle = "red" ;
+            context.translate(100, 100);
+            context.rotate(i * Math.PI / 45)
+            drawStar(80);
+            i += 3*direction; 
+			 if (i >= 90) i = 3; 
+			context.restore();
+        }
+ 
+        function drawStar(r) // 绘制五角星图案
+        {
+            context.save();
+            context.fillStyle = "yellow";
+            context.beginPath();
+            context.moveTo(r, 0);
+            for (var i = 0; i < 9; i++)
+            {
+                context.rotate(Math.PI / 5);
+                if (i % 2 == 0)
+                    context.lineTo((r / 2), 0);
+                else
+                    context.lineTo(r, 0);	
+            } 
+			
+            context.closePath();
+            context.fill();
+            context.restore();
+        }
+    </script>
+</head>
+ 
+<body onload="draw('myCanvas');initRotSquare()">
+    <h1>实验1</h1><br>
+	<canvas id="rot-canvas" width="512" height="512">你的浏览器不支持HTML5 canvas元素</canvas>
+	<fieldset>
+	    <legend>转动控制</legend>
+	    <button id="direction" onclick="changeDir()">换个转动方向</button><br>
+		请输入Speed:<input type="text" id="speedcon" value="50" size="5" >
+		<input type="submit">
+	    <!-- Speed 0<input type="range" id="speedcon" min="0" max="100" value="50" step="10"> 100 -->
+	</fieldset>
+	<h1>实验2</h1><br>
+    <canvas id="myCanvas" width="500" height="400"
+    style="border:3px double #996633;">
+    </canvas>
+	<img src="p201812213502026.png"width="500" height="400">
+	<input type="button"id="direction" value="换个转动方向"onclick="change()" style="height=50px;width=200px;"/>
+	
+</body>
+
+</html>

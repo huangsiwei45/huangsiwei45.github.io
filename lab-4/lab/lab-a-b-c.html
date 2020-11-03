@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-type" content="text/html;charset=utf-8">
+    <title>Chap4 Demo</title>
+    <script id="rtvshader" type="x-shader/x-vertex">
+	attribute vec4 vPosition;
+	attribute vec4 vColor;
+	varying vec4 fColor;
+ 
+	uniform vec3 theta;
+	uniform vec3 move;
+	uniform vec3 zoom;
+	
+
+	void main()
+	{
+		//compute the sins and cos of theta for each of the three axis in one computation
+		vec3 angles = radians( theta );
+		vec3 cost = cos( theta );
+		vec3 sint = sin( theta );
+		
+		mat4 mt = mat4(1.0, 0.0, 0.0, 0.0,
+					   0.0, 1.0, 0.0, 0.0,
+					   0.0, 0.0, 1.0, 0.0,
+					   move[0], move[1], move[2], 1.0);
+					   
+		mat4 Zoom = mat4(1.0+zoom[0], 0.0, 0.0, 0.0,
+						0.0, 1.0+zoom[1], 0.0, 0.0,
+						0.0, 0.0, 1.0+zoom[2], 0.0,
+						0.0, 0.0, 0.0, 1.0);
+
+		mat4 rx = mat4(  1.0,  0.0,  0.0, 0.0,
+						 0.0,  cost.x,  sint.x, 0.0,
+						 0.0,  -sint.x,  cost.x, 0.0,
+						 0.0,  0.0,  0.0, 1.0
+						 );
+
+		mat4 ry = mat4(  cost.y,  0.0, -sint.y,  0.0,
+						 0.0,  1.0,  0.0,  0.0,
+						 sint.y,  0.0,  cost.y,  0.0,
+						 0.0,  0.0,  0.0,  1.0
+						 );
+
+		mat4 rz = mat4(  cost.z,  sint.z,  0.0,  0.0,
+						 -sint.z,  cost.z,  0.0,  0.0,
+						 0.0,  0.0,  1.0,  0.0,
+						 0.0,  0.0,  0.0,  1.0
+						 );
+
+		fColor = vColor;
+		gl_Position = rz * ry * rx * vPosition;
+		gl_Position = mt * gl_Position;
+		gl_Position = Zoom * gl_Position;
+		gl_Position.z = -gl_Position.z;
+		
+			
+	}
+	</script>
+
+    <script id="rtfshader" type="x-shader/x-fragment">
+	precision mediump float;
+	varying vec4 fColor;
+
+	void main()
+	{
+		gl_FragColor = fColor;
+	}
+	</script>
+    <script type="text/javascript" src="../common/webgl-utils.js"></script>
+    <script type="text/javascript" src="../common/initShaders.js"></script>
+    <script type="text/javascript" src="../common/gl-matrix-min.js"></script>
+    
+    <script type="text/javascript" src="../js/rotcube.js"></script>
+</head>
+
+<body>
+    <h1>旋转的立方体</h1>
+    <canvas id="rtcb-canvas" width="600" height="600">
+        你的浏览器不支持HTML5 canvas元素
+    </canvas>
+
+    <button id="xbutton">Rotate X</button>
+    <button id="ybutton">Rotate Y</button>
+    <button id="zbutton">Rotate Z</button>
+	<hr/>
+			<h3>实验b</h3>
+			x轴上的平移 : <input type="range" id="xTranslation" min="-100" max="100" value="0" /> <br />
+			y轴上的平移 : <input type="range" id="yTranslation" min="-100" max="100" value="0" /> <br />
+			z轴上的平移 : <input type="range" id="zTranslation" min="-100" max="100" value="0" /> <br />
+	<hr />
+	        <h3>实验c</h3>
+	        		x轴上的缩放 : <input type="range" id="xZoom" min="-100" max="100" value="0" /> <br />
+	        		y轴上的缩放 : <input type="range" id="yZoom" min="-100" max="100" value="0" /> <br />
+	        		z轴上的缩放 : <input type="range" id="zZoom" min="-100" max="100" value="0" /> <br />
+    <hr />
+	<input type="button" id="button1" value="返回" onclick="javascript:history.back(-1)">
+</body>
+
+</html>

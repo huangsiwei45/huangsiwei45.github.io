@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html;charset=utf-8">
+	<title>Chap4 Demo</title>
+	<script id="vertex-shader" type="x-shader/x-vertex">
+	attribute vec4 vPosition;
+	attribute vec4 vColor;
+	varying vec4 fColor;
+
+	uniform mat4 rmat;
+	void main()
+	{
+		gl_Position = rmat * vPosition;
+		fColor = vColor;
+	}
+	</script>
+
+	<script id="fragment-shader" type="x-shader/x-fragment">
+	precision mediump float;
+	varying vec4 fColor;
+
+	void main()
+	{
+		gl_FragColor = fColor;
+	}
+	</script>
+	<script type="text/javascript" src="../common/webgl-utils.js"></script>
+	<script type="text/javascript" src="../common/initShaders.js"></script>
+	<script type="text/javascript" src="../common/gl-matrix-min.js"></script>
+	
+	<script type="text/javascript" src="../js/rotcubetrack.js"></script>
+</head>
+<body onload="initCube()">
+<h1>旋转的立方体-跟踪球控制</h1>
+<canvas id="gl-canvas" width="512" height="512">
+	
+你的浏览器不支持HTML5 canvas元素
+</canvas>
+<input type="button" id="button1" value="返回" onclick="javascript:history.back(-1)">
+</body>
+</html>

@@ -32,7 +32,7 @@ var oytop = 3.0;
 var oybottom = -3.0;
 var onear = -5;
 var ofar = 10;
-//复制过来的
+
 var stept =2;
 
 var oradius = 3.0;
@@ -96,7 +96,7 @@ var lastMouseY = null;
 
 var currentKey = [];
 
-//片面及颜色设置
+
 var vertexLoc = null;
 var normalLoc = null;
 
@@ -119,7 +119,7 @@ var iBuffer = null;
 var nBuffer = null;
 var useObjNormal = true;
 
-//复制过来的
+
     var lightPosition = vec4.create();
     var lightAmbient = vec4.create();
     var lightDiffuse = vec4.create();
@@ -316,7 +316,7 @@ function handleMouseMove(event) {   //鼠标事件
     buildModelViewProj();
 }
 
-function checkInput(){      //投影方式、绘制方式、颜色
+function checkInput(){      
     var ptype = document.getElementById( "ortho" ).checked; 
     if( ptype ) {
         projectionType = 1;
@@ -343,7 +343,7 @@ function checkInput(){      //投影方式、绘制方式、颜色
     );
 }
 
-function restoreSliderValue(changePos){     //物体或相机
+function restoreSliderValue(changePos){     
     if (changePos === 1) {
         document.getElementById("xpos").value = dx;
         document.getElementById("ypos").value = dy;
@@ -362,7 +362,7 @@ function restoreSliderValue(changePos){     //物体或相机
     }
 }
 
-window.onload = function initWindow(){      //初始化
+window.onload = function initWindow(){      
     canvas = document.getElementById("gl-canvas");
 
     gl = WebGLUtils.setupWebGL(canvas);
@@ -386,7 +386,7 @@ function initBuffers(){
     cBuffer = gl.createBuffer();
 }
 
-function initInterface(){       //读取obj，初始化参数
+function initInterface(){       
     fileInput = document.getElementById("fileInput");
     fileInput.addEventListener("change", function (event) { 
         var file = fileInput.files[0];
@@ -488,7 +488,7 @@ function initInterface(){       //读取obj，初始化参数
         });
     }
 
-    //方框中内容
+    
     document.getElementById("slider-ka").addEventListener("input", function(event){
         var vka = event.target.value;
         materialKa = parseFloat(vka);
@@ -624,7 +624,7 @@ function buildMultiViewProj(type){
         rendermultiview();
 }
 
-function initObj(){     //读取obj时导入bufer数据
+function initObj(){    
     mesh = new OBJ.Mesh( meshdata );
     // mesh.normalBuffer, mesh.textureBuffer, mesh.vertexBuffer, mesh.indexBuffer
     OBJ.initMeshBuffers( gl, mesh );
@@ -682,7 +682,7 @@ function initObj(){     //读取obj时导入bufer数据
     render();
 }
 
-function updateModelData(){     //bufferData
+function updateModelData(){     
     if( vBuffer === null)
         vBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, vBuffer );
@@ -695,18 +695,7 @@ function updateModelData(){     //bufferData
     gl.bufferData( gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(lineIndex), gl.STATIC_DRAW );
 }
 
-// function updateColor(){
-//     var bcolor = [];
-//     for (var i = 0; i < mesh.vertexBuffer.numItems; i++)
-//         bcolor.push(currentColor[0], currentColor[1], currentColor[2], currentColor[3]);
 
-//     gl.bindBuffer(gl.ARRAY_BUFFER, cBuffer);
-//     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(bcolor), gl.STATIC_DRAW);
-
-//     vColor = gl.getAttribLocation(program, "vColor",);
-//     gl.vertexAttribPointer(vColor, 4, gl.FLOAT, false, 0, 0);
-//     gl.enableVertexAttribArray(vColor);
-// }
 
 function buildModelViewProj(){
     /* ModelViewMatrix & ProjectionMatrix */

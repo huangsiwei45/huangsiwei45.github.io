@@ -107,7 +107,7 @@ var sx = 1;
 var sy = 1;
 var sz = 1;
 
-/* cx, cy, cz: the position of camera */
+
 var cx = 0.0;
 var cy = 0.0;
 var cz = 4.0;
@@ -133,7 +133,6 @@ var lastMouseY = null;
 
 var currentKey = [];
 
-//片面及颜色设置
 var vertexLoc = null;
 var normalLoc = null;
 
@@ -166,7 +165,7 @@ var pfar = 200;
 var nBuffer = null;
 var useObjNormal = true;
 
-//复制过来的
+
     var lightPosition = vec4.create();
     var lightAmbient = vec4.create();
     var lightDiffuse = vec4.create();
@@ -207,10 +206,10 @@ var currentColor = vec4.create();
 
 var program = null;
 
-function handleKeyDown(event) {     //键盘事件
+function handleKeyDown(event) {     //点击键盘 
     var key = event.keyCode;
     currentKey[key] = true;
-    if( changePos === 1 ){    
+    if( changePos === 1 ){    //物体位置
         switch (key) {
             case 65: //left//a
                 dx -= step;
@@ -270,7 +269,7 @@ function handleKeyDown(event) {     //键盘事件
                 break;
         }
     }
-    if( changePos === 2 ){ 
+    if( changePos === 2 ){   //相机位置
         switch (key) {
             case 65: //left//a
                 cx -= stepc;
@@ -394,7 +393,7 @@ function checkInput(){      //投影方式、绘制方式、颜色
     );
 }
 
-function restoreSliderValue(changePos){     //物体或相机
+function restoreSliderValue(changePos){     
     if (changePos === 1) {
         document.getElementById("xpos").value = dx;
         document.getElementById("ypos").value = dy;
@@ -413,7 +412,7 @@ function restoreSliderValue(changePos){     //物体或相机
     }
 }
 
-window.onload = function initWindow(){      //初始化
+window.onload = function initWindow(){      //初始化窗口
     canvas = document.getElementById("gl-canvas");
 
     gl = WebGLUtils.setupWebGL(canvas);
@@ -604,7 +603,7 @@ function initInterface(){       //读取obj，初始化参数
         });
     }
 
-    //方框中内容
+  
     document.getElementById("slider-ka").addEventListener("input", function(event){
         var vka = event.target.value;
         materialKa = parseFloat(vka);
@@ -1016,7 +1015,7 @@ function buildModelViewProj(){
     var rthe = theta * Math.PI / 180.0;
     var rphi = phi * Math.PI / 180.0;
 
-    if(changePos==1){   //物体或相机位置改变
+    if(changePos==1){  
         vec3.set(eye, localRadius * Math.sin(rthe) * Math.cos(rphi), localRadius * Math.sin(rthe) * Math.sin(rphi), localRadius * Math.cos(rthe)); 
 
     mat4.lookAt( mvMatrix, eye, at, up );
@@ -1029,7 +1028,7 @@ function buildModelViewProj(){
     mat4.rotateZ(mvMatrix, mvMatrix, dzt * Math.PI / 180.0);
     mat4.rotateY(mvMatrix, mvMatrix, dyt * Math.PI / 180.0);
     mat4.rotateX(mvMatrix, mvMatrix, dxt * Math.PI / 180.0);
-    }else{      //相机应该和物体移动相反
+    }else{     
         vec3.set(eye, localRadius * Math.sin(rthe) * Math.cos(rphi), localRadius * Math.sin(rthe) * Math.sin(rphi), localRadius * Math.cos(rthe)); 
 
     mat4.lookAt( mvMatrix, eye, at, up );
@@ -1132,7 +1131,7 @@ function buildModelViewProj(){
     vec4.multiply(specularProduct, lightSpecular, materialSpecular);
     
     mat4.perspective(projectionMatrix, fovy, 1, pnear, pfar);
-    //复制
+ 
     mat3.fromMat4(normalMatrix, mvMatrix);
 
     mat3.normalFromMat4(invModelViewMatrix, modelViewMatrix);
@@ -1222,7 +1221,7 @@ function drawObject(){
     //console.log("object");
 }
 
-var interval = setInterval(timerFunc, 30);      //绘制
+var interval = setInterval(timerFunc, 30);   
 
 function timerFunc() {
     render();

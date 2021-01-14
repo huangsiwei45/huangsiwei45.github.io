@@ -405,12 +405,12 @@ function configureBumpTexture( url ){
 }
 //天空盒图片
 var faceUrl = [
-    'images/6.png',
-        'images/3.png',
-        'images/1.png',
-        'images/2.png',
-        'images/5.png',
-        'images/4.png',
+    'http://localhost:8080/6.png',
+        'http://localhost:8080/3.png',
+        'http://localhost:8080/1.png',
+        'http://localhost:8080/2.png',
+        'http://localhost:8080/5.png',
+        'http://localhost:8080/4.png',
 
 ];
 
